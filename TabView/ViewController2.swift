@@ -14,6 +14,7 @@ class ViewController2: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        indicator.hidesWhenStopped = true
     }
 
     override func didReceiveMemoryWarning() {

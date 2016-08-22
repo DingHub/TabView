@@ -35,31 +35,14 @@ public class TabView: UIView, UICollectionViewDataSource, UICollectionViewDelega
         }
     }
     
-    public var currentSelectedIndex = 0
-    
-    public override init(frame: CGRect) {
-        super.init(frame: frame)
-        setUp()
+    public func selectItemWithIndex(index: Int) {
+        tappedTab(index)
     }
     
-    public required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        setUp()
-    }
     
-    func setUp() {
-        tabHeight = 44
-        bodyTopMargin = 20
-        bodyBottomMargin = 20
-        tabBackgroundColor = UIColor.clearColor()
-        tabFontSize = 14
-        titleColor = UIColor(red: 51.0/255.0, green: 51.0/255.0, blue: 51.0/255.0, alpha: 1.0)
-        selectedTitleColor = UIColor(red: 33.0/255.0, green: 149.0/255.0, blue: 128.0/255.0, alpha: 1.0)
-
-    }
     // Mark: impletion
     
-    func buidSubviews() {
+    private func buidSubviews() {
         let count = items.count
         let buttonWidth = width / CGFloat(count)
         addSubview(tabView)
@@ -88,18 +71,19 @@ public class TabView: UIView, UICollectionViewDataSource, UICollectionViewDelega
         }
         
         layoutIfNeeded()
-        addSubview(bodyView)
-        bodyView.reloadData()
+        if bodyView == nil {
+            bodyView = createBodyView()
+        }
+        bodyView?.reloadData()
         tappedTab(-1)
-        
     }
     
-    func tabTapped(button: UIButton) {
+    @objc private func tabTapped(button: UIButton) {
         tappedTab(button.tag)
     }
     
-    func tappedTab(index: Int) {
-        guard currentSelectedIndex != index else { return }
+    private func tappedTab(index: Int) {
+        guard currentSelectedIndex != index && index >= 0 && index < items.count else { return }
         let i = index == -1 ? 0 : index
         let preButton = buttons[currentSelectedIndex]
         preButton.selected = false
@@ -118,30 +102,20 @@ public class TabView: UIView, UICollectionViewDataSource, UICollectionViewDelega
         items[i].tabSelectedAction?()
     }
     
-    func scrollBody() {
+    private func scrollBody() {
         let point = CGPoint(x: width * CGFloat(currentSelectedIndex), y: 0)
-        bodyView.setContentOffset(point, animated: true)
+        bodyView?.setContentOffset(point, animated: true)
     }
     
-    public func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return items.count
-    }
-    public func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("TVCell", forIndexPath: indexPath) as! TVCell
-        cell.mainView = items[indexPath.row].view
-        return cell
-    }
-    public func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        items[indexPath.row].bodyTappedAction?()
-    }
-    public func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
-        let index = Int(scrollView.contentOffset.x / width)
-        tappedTab(index)
-    }
-    
+    private var currentSelectedIndex = 0
 
-    var bodyView: UICollectionView {
-        let bodyFrame = CGRect(x: 0, y: tabHeight + bodyTopMargin, width: width, height: height - tabHeight - bodyTopMargin - bodyBottomMargin)
+    private var bodyView: UICollectionView?
+    
+    private func createBodyView() -> UICollectionView {
+        let bodyFrame = CGRect(x: 0,
+                               y: tabHeight + bodyTopMargin,
+                               width: width,
+                               height: height - tabHeight - bodyTopMargin - bodyBottomMargin)
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .Horizontal
         layout.minimumLineSpacing = 0.000001
@@ -158,15 +132,18 @@ public class TabView: UIView, UICollectionViewDataSource, UICollectionViewDelega
         collectionView.userInteractionEnabled = true
         collectionView.bounces = false
         collectionView.showsHorizontalScrollIndicator = false
-        collectionView.autoresizingMask = [.FlexibleWidth, .FlexibleHeight, .FlexibleBottomMargin]
+        collectionView.autoresizingMask = [.FlexibleWidth,
+                                           .FlexibleHeight,
+                                           .FlexibleBottomMargin]
         addSubview(collectionView)
+        
         return collectionView
     }
     
-    class TVCell: UICollectionViewCell {
+    private class TVCell: UICollectionViewCell {
         var mainView: UIView? {
             willSet(newView) {
-                for view in subviews {
+                for view in contentView.subviews {
                     view.removeFromSuperview()
                 }
                 newView?.frame = bounds
@@ -179,18 +156,35 @@ public class TabView: UIView, UICollectionViewDataSource, UICollectionViewDelega
         }
     }
     
-
-    var buttons = [UIButton]()
+    private lazy var buttons = [UIButton]()
     
-    var width: CGFloat {
+    private var width: CGFloat {
         return self.frame.size.width
     }
-    var height: CGFloat {
+    private var height: CGFloat {
         return self.frame.size.height
     }
     
-    var tabView = UIView()
-    var tabLine = UIView()
+    private var tabView = UIView()
+    private var tabLine = UIView()
+    
+    // Mark: collectionView datasource and delegate methods.
+    
+    public func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return items.count
+    }
+    public func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("TVCell", forIndexPath: indexPath) as! TVCell
+        cell.mainView = items[indexPath.row].view
+        return cell
+    }
+    public func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        items[indexPath.row].bodyTappedAction?()
+    }
+    public func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
+        let index = Int(scrollView.contentOffset.x / width)
+        tappedTab(index)
+    }
 
 }
 
