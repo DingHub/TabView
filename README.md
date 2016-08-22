@@ -47,14 +47,14 @@ Usage:
                                 vc2loaded = true
                                 vc2.loadData()
                             }
-            },
+                        },
                            bodyTappedAction: nil)
         
         let item3 = TVItem(title: "controller 3", view: vc3.view, tabSelectedAction: nil, bodyTappedAction: nil)
         
         tabView.items = [item1, item2, item3]
 
-            view.addSubview(tabView)
+        view.addSubview(tabView)
         view.backgroundColor = UIColor.whiteColor()
 ```
 You can find an Objective-C version here:[TVTabView](https://github.com/DingHub/TVTabView)
