@@ -43,11 +43,11 @@ Usage:
         let item2 = TVItem(title: "controller 2",
                            view: vc2.view,
                            tabSelectedAction: {
-                            if !vc2loaded {
-                                vc2loaded = true
-                                vc2.loadData()
-                            }
-                        },
+                                if !vc2loaded {
+                                        vc2loaded = true
+                                        vc2.loadData()
+                                }
+                           },
                            bodyTappedAction: nil)
         
         let item3 = TVItem(title: "controller 3", view: vc3.view, tabSelectedAction: nil, bodyTappedAction: nil)
