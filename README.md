@@ -7,7 +7,7 @@ Usage:
 ---
 1. As a containner of views:
 ```
-let width = view.frame.size.width
+        let width = view.frame.size.width
         let frame = CGRect(x: width * 0.25, y: 100, width: width * 0.5, height: width * 0.8)
         let tabView = TabView(frame: frame)
         
@@ -29,7 +29,7 @@ let width = view.frame.size.width
 ```
 2. As a containner of viewControllers:
 ```
-  let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let vc1 = storyboard.instantiateViewControllerWithIdentifier("ViewController1") as! ViewController1
         let vc2 = storyboard.instantiateViewControllerWithIdentifier("ViewController2") as! ViewController2
         let vc3 = storyboard.instantiateViewControllerWithIdentifier("ViewController3") as! ViewController3
