@@ -1,5 +1,5 @@
 # TabView
-Handy Tab view. 
+Handy Tab View. 
 ---
 ![TV1](https://github.com/DingHub/ScreenShots/blob/master/TVTabView/1.png)................... ![TV0](https://github.com/DingHub/ScreenShots/blob/master/TVTabView/0.png)
 Usage:
