@@ -26,7 +26,7 @@ public class TabView: UIView, UICollectionViewDataSource, UICollectionViewDelega
     public var tabFontSize: CGFloat = 14.0
     public var titleColor = UIColor(red: 51.0/255.0, green: 51.0/255.0, blue: 51.0/255.0, alpha: 1.0)
     public var selectedTitleColor = UIColor(red: 33.0/255.0, green: 149.0/255.0, blue: 128.0/255.0, alpha: 1.0)
-    public var tabLineColor = UIColor(red: 225.0/255.0, green: 225.0/255.0, blue: 225.0/255.0, alpha: 1.0)
+    public var tabLineColor: UIColor?
     public var selectedTabLineColor = UIColor(red: 33.0/255.0, green: 149.0/255.0, blue: 128.0/255.0, alpha: 1.0)
     
     public var items = [TVItem]() {
