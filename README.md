@@ -9,6 +9,7 @@ Usage:
         let width = view.frame.size.width
         let frame = CGRect(x: width * 0.25, y: 100, width: width * 0.5, height: width * 0.8)
         let tabView = TabView(frame: frame)
+        tabView.tabLineColor = UIColor(red: 225.0/255.0, green: 225.0/255.0, blue: 225.0/255.0, alpha: 1.0);
         
         let label = UILabel()
         label.textAlignment = .Center
