@@ -26,6 +26,8 @@ public class TabView: UIView, UICollectionViewDataSource, UICollectionViewDelega
     public var tabFontSize: CGFloat = 14.0
     public var titleColor = UIColor(red: 51.0/255.0, green: 51.0/255.0, blue: 51.0/255.0, alpha: 1.0)
     public var selectedTitleColor = UIColor(red: 33.0/255.0, green: 149.0/255.0, blue: 128.0/255.0, alpha: 1.0)
+    public var tabLineColor = UIColor(red: 225.0/255.0, green: 225.0/255.0, blue: 225.0/255.0, alpha: 1.0)
+    public var selectedTabLineColor = UIColor(red: 33.0/255.0, green: 149.0/255.0, blue: 128.0/255.0, alpha: 1.0)
     
     public var items = [TVItem]() {
         didSet {
@@ -49,8 +51,11 @@ public class TabView: UIView, UICollectionViewDataSource, UICollectionViewDelega
         tabView.backgroundColor = tabBackgroundColor
         tabView.frame = CGRect(x: 0, y: 0, width: width, height: tabHeight)
         addSubview(tabLine)
-        tabLine.backgroundColor = selectedTitleColor
-        tabLine.frame = CGRect(x: 0, y: tabHeight - 1, width: buttonWidth, height: 1)
+        tabLine.backgroundColor = tabLineColor
+        tabLine.frame = CGRect(x: 0, y: tabHeight - 1, width: width, height: 1)
+        tabLine.addSubview(selectedTabLine)
+        selectedTabLine.backgroundColor = selectedTabLineColor
+        selectedTabLine.frame = CGRect(x: 0, y: 0, width: buttonWidth, height: 1)
         
         for (i,item) in items.enumerate() {
             let button = UIButton(type: .Custom)
@@ -93,8 +98,10 @@ public class TabView: UIView, UICollectionViewDataSource, UICollectionViewDelega
         currentSelectedIndex = i
         
         UIView.animateWithDuration(0.3) { [weak self] in
-            let point = CGPoint(x: currentButton.center.x, y: self!.tabLine.center.y)
-            self!.tabLine.center = point
+            if let strong = self {
+                let point = CGPoint(x: currentButton.center.x, y: self!.selectedTabLine.center.y)
+                strong.selectedTabLine.center = point
+            }
         }
         
         scrollBody()
@@ -167,6 +174,7 @@ public class TabView: UIView, UICollectionViewDataSource, UICollectionViewDelega
     
     private var tabView = UIView()
     private var tabLine = UIView()
+    private var selectedTabLine = UIView()
     
     // Mark: collectionView datasource and delegate methods.
     
