@@ -19,16 +19,15 @@ public struct TVItem {
 
 public class TabView: UIView, UICollectionViewDataSource, UICollectionViewDelegate {
     
-    public var tabHeight: CGFloat = 44.0
-    public var bodyTopMargin: CGFloat = 20.0
+    public var tabHeight: CGFloat        = 44.0
+    public var bodyTopMargin: CGFloat    = 20.0
     public var bodyBottomMargin: CGFloat = 20.0
-    public var tabBackgroundColor = UIColor.clearColor()
-    public var tabFontSize: CGFloat = 14.0
-    public var titleColor = UIColor(red: 51.0/255.0, green: 51.0/255.0, blue: 51.0/255.0, alpha: 1.0)
-    public var selectedTitleColor = UIColor(red: 33.0/255.0, green: 149.0/255.0, blue: 128.0/255.0, alpha: 1.0)
+    public var tabBackgroundColor: UIColor?
+    public var tabFontSize: CGFloat      = 14.0
+    public var titleColor                = UIColor(red: 51.0/255.0, green: 51.0/255.0, blue: 51.0/255.0, alpha: 1.0)
+    public var selectedTitleColor        = UIColor(red: 33.0/255.0, green: 149.0/255.0, blue: 128.0/255.0, alpha: 1.0)
     public var tabLineColor: UIColor?
-    public var selectedTabLineColor = UIColor(red: 33.0/255.0, green: 149.0/255.0, blue: 128.0/255.0, alpha: 1.0)
-    
+    public var selectedTabLineColor      = UIColor(red: 33.0/255.0, green: 149.0/255.0, blue: 128.0/255.0, alpha: 1.0)
     public var items = [TVItem]() {
         didSet {
             if items.count > 0 {
@@ -36,7 +35,6 @@ public class TabView: UIView, UICollectionViewDataSource, UICollectionViewDelega
             }
         }
     }
-    
     public func selectItemWithIndex(index: Int) {
         tappedTab(index)
     }
@@ -195,37 +193,3 @@ public class TabView: UIView, UICollectionViewDataSource, UICollectionViewDelega
     }
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
