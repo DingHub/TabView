@@ -37,14 +37,17 @@ public class TabView: UIView, UICollectionViewDataSource, UICollectionViewDelega
     public func selectItemWithIndex(index: Int) {
         tappedTab(index)
     }
+    public func selectedIndex() -> Int {
+        return currentSelectedIndex
+    }
     
     // Mark: private
     private var currentSelectedIndex = 0
     private var bodyView: UICollectionView?
     private lazy var buttons = [UIButton]()
-    private var tabView = UIView()
-    private var tabLine = UIView()
-    private var selectedTabLine = UIView()
+    private lazy var tabView = UIView()
+    private lazy var tabLine = UIView()
+    private lazy var selectedTabLine = UIView()
 }
 
 // MARK: - collectionView datasource and delegate methods.
