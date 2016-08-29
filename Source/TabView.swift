@@ -8,9 +8,8 @@
 
 import UIKit
 
-public typealias TVAction = () -> ()
-
 public struct TVItem {
+    public typealias TVAction = () -> ()
     public var title: String
     public var view: UIView
     public var tabSelectedAction: TVAction?
@@ -39,10 +38,38 @@ public class TabView: UIView, UICollectionViewDataSource, UICollectionViewDelega
         tappedTab(index)
     }
     
+    // Mark: private
+    private var currentSelectedIndex = 0
+    private var bodyView: UICollectionView?
+    private lazy var buttons = [UIButton]()
+    private var tabView = UIView()
+    private var tabLine = UIView()
+    private var selectedTabLine = UIView()
+}
+
+// MARK: - collectionView datasource and delegate methods.
+public extension TabView {
     
-    // Mark: impletion
-    
-    private func buidSubviews() {
+    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return items.count
+    }
+    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("TVCell", forIndexPath: indexPath) as! TVCell
+        cell.mainView = items[indexPath.row].view
+        return cell
+    }
+    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        items[indexPath.row].bodyTappedAction?()
+    }
+    func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
+        let index = Int(scrollView.contentOffset.x / width)
+        tappedTab(index)
+    }
+}
+
+// MARK: - private
+private extension TabView {
+    func buidSubviews() {
         let count = items.count
         let buttonWidth = width / CGFloat(count)
         addSubview(tabView)
@@ -81,11 +108,11 @@ public class TabView: UIView, UICollectionViewDataSource, UICollectionViewDelega
         tappedTab(-1)
     }
     
-    @objc private func tabTapped(button: UIButton) {
+    @objc func tabTapped(button: UIButton) {
         tappedTab(button.tag)
     }
     
-    private func tappedTab(index: Int) {
+    func tappedTab(index: Int) {
         guard currentSelectedIndex != index && index >= 0 && index < items.count else { return }
         let i = index == -1 ? 0 : index
         let preButton = buttons[currentSelectedIndex]
@@ -107,16 +134,28 @@ public class TabView: UIView, UICollectionViewDataSource, UICollectionViewDelega
         items[i].tabSelectedAction?()
     }
     
-    private func scrollBody() {
+    func scrollBody() {
         let point = CGPoint(x: width * CGFloat(currentSelectedIndex), y: 0)
         bodyView?.setContentOffset(point, animated: true)
     }
     
-    private var currentSelectedIndex = 0
-
-    private var bodyView: UICollectionView?
+    class TVCell: UICollectionViewCell {
+        var mainView: UIView? {
+            willSet(newView) {
+                for view in contentView.subviews {
+                    view.removeFromSuperview()
+                }
+                newView?.frame = bounds
+            }
+            didSet {
+                if let view = mainView {
+                    contentView.addSubview(view)
+                }
+            }
+        }
+    }
     
-    private func createBodyView() -> UICollectionView {
+    func createBodyView() -> UICollectionView {
         let bodyFrame = CGRect(x: 0,
                                y: tabHeight + bodyTopMargin,
                                width: width,
@@ -145,51 +184,11 @@ public class TabView: UIView, UICollectionViewDataSource, UICollectionViewDelega
         return collectionView
     }
     
-    private class TVCell: UICollectionViewCell {
-        var mainView: UIView? {
-            willSet(newView) {
-                for view in contentView.subviews {
-                    view.removeFromSuperview()
-                }
-                newView?.frame = bounds
-            }
-            didSet {
-                if let view = mainView {
-                    contentView.addSubview(view)
-                }
-            }
-        }
-    }
-    
-    private lazy var buttons = [UIButton]()
-    
-    private var width: CGFloat {
+    var width: CGFloat {
         return self.frame.size.width
     }
-    private var height: CGFloat {
+    
+    var height: CGFloat {
         return self.frame.size.height
     }
-    
-    private var tabView = UIView()
-    private var tabLine = UIView()
-    private var selectedTabLine = UIView()
-    
-    // Mark: collectionView datasource and delegate methods.
-    
-    public func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return items.count
-    }
-    public func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("TVCell", forIndexPath: indexPath) as! TVCell
-        cell.mainView = items[indexPath.row].view
-        return cell
-    }
-    public func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        items[indexPath.row].bodyTappedAction?()
-    }
-    public func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
-        let index = Int(scrollView.contentOffset.x / width)
-        tappedTab(index)
-    }
-
 }
