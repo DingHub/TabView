@@ -125,11 +125,9 @@ private extension TabView {
         
         currentSelectedIndex = i
         
-        UIView.animateWithDuration(0.3) { [weak self] in
-            if let strong = self {
-                let point = CGPoint(x: currentButton.center.x, y: self!.selectedTabLine.center.y)
-                strong.selectedTabLine.center = point
-            }
+        UIView.animateWithDuration(0.3) {
+            let point = CGPoint(x: currentButton.center.x, y: self.selectedTabLine.center.y)
+            self.selectedTabLine.center = point
         }
         
         scrollBody()
