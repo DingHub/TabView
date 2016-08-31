@@ -41,8 +41,6 @@ class ViewController: UIViewController {
 
             view.addSubview(tabView)
         view.backgroundColor = UIColor.whiteColor()
-        
-        
     }
 
     override func didReceiveMemoryWarning() {

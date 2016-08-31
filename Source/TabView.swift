@@ -21,12 +21,14 @@ public class TabView: UIView, UICollectionViewDataSource, UICollectionViewDelega
     public var tabHeight: CGFloat        = 44.0
     public var bodyTopMargin: CGFloat    = 20.0
     public var bodyBottomMargin: CGFloat = 20.0
+    
     public var tabBackgroundColor: UIColor?
     public var tabFontSize: CGFloat      = 14.0
     public var titleColor                = UIColor(red: 51.0/255.0, green: 51.0/255.0, blue: 51.0/255.0, alpha: 1.0)
     public var selectedTitleColor        = UIColor(red: 33.0/255.0, green: 149.0/255.0, blue: 128.0/255.0, alpha: 1.0)
     public var tabLineColor: UIColor?
     public var selectedTabLineColor      = UIColor(red: 33.0/255.0, green: 149.0/255.0, blue: 128.0/255.0, alpha: 1.0)
+    
     public var items = [TVItem]() {
         didSet {
             if items.count > 0 {
@@ -34,15 +36,18 @@ public class TabView: UIView, UICollectionViewDataSource, UICollectionViewDelega
             }
         }
     }
-    public func selectItemWithIndex(index: Int) {
-        tappedTab(index)
-    }
-    public func selectedIndex() -> Int {
-        return currentSelectedIndex
+    
+    public var selectedIndex: Int {
+        get {
+            return currentIndex
+        }
+        set {
+            tappedTab(newValue)
+        }
     }
     
     // Mark: private
-    private var currentSelectedIndex = 0
+    private var currentIndex = 0
     private var bodyView: UICollectionView?
     private lazy var buttons = [UIButton]()
     private lazy var tabView = UIView()
@@ -116,14 +121,14 @@ private extension TabView {
     }
     
     func tappedTab(index: Int) {
-        guard currentSelectedIndex != index && index >= 0 && index < items.count else { return }
+        guard currentIndex != index && index >= 0 && index < items.count else { return }
         let i = index == -1 ? 0 : index
-        let preButton = buttons[currentSelectedIndex]
+        let preButton = buttons[currentIndex]
         preButton.selected = false
         let currentButton = buttons[i]
         currentButton.selected = true
         
-        currentSelectedIndex = i
+        currentIndex = i
         
         UIView.animateWithDuration(0.3) {
             let point = CGPoint(x: currentButton.center.x, y: self.selectedTabLine.center.y)
@@ -136,7 +141,7 @@ private extension TabView {
     }
     
     func scrollBody() {
-        let point = CGPoint(x: width * CGFloat(currentSelectedIndex), y: 0)
+        let point = CGPoint(x: width * CGFloat(currentIndex), y: 0)
         bodyView?.setContentOffset(point, animated: true)
     }
     
