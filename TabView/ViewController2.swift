@@ -23,8 +23,7 @@ class ViewController2: UIViewController {
     
     func loadData() {
         indicator.startAnimating()
-        let time = dispatch_time(DISPATCH_TIME_NOW, Int64(NSEC_PER_SEC * 1))
-        dispatch_after(time, dispatch_get_main_queue()) { [weak self] in
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
             if let strong = self {
                 strong.indicator.stopAnimating()
             }

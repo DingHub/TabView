@@ -14,11 +14,11 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc1 = storyboard.instantiateViewControllerWithIdentifier("ViewController1") as! ViewController1
-        let vc2 = storyboard.instantiateViewControllerWithIdentifier("ViewController2") as! ViewController2
-        let vc3 = storyboard.instantiateViewControllerWithIdentifier("ViewController3") as! ViewController3
+        let vc1 = storyboard.instantiateViewController(withIdentifier: "ViewController1") as! ViewController1
+        let vc2 = storyboard.instantiateViewController(withIdentifier: "ViewController2") as! ViewController2
+        let vc3 = storyboard.instantiateViewController(withIdentifier: "ViewController3") as! ViewController3
         
-        let screenBounds = UIScreen.mainScreen().bounds
+        let screenBounds = UIScreen.main.bounds
         let tabView = TabView(frame: screenBounds)
         tabView.bodyBottomMargin = 0
         
@@ -40,14 +40,14 @@ class ViewController: UIViewController {
         tabView.items = [item1, item2, item3]
 
             view.addSubview(tabView)
-        view.backgroundColor = UIColor.whiteColor()
+        view.backgroundColor = UIColor.white
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
-
-    override func prefersStatusBarHidden() -> Bool {
+    
+    override var prefersStatusBarHidden: Bool {
         return true
     }
 

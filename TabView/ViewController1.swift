@@ -19,12 +19,12 @@ class ViewController1: UIViewController {
         tabView.tabLineColor = UIColor(red: 225.0/255.0, green: 225.0/255.0, blue: 225.0/255.0, alpha: 1.0);
         
         let label = UILabel()
-        label.textAlignment = .Center
+        label.textAlignment = .center
         label.text = "First view"
         let item1 = TVItem(title: "First", view: label, tabSelectedAction: nil, bodyTappedAction: nil)
         
         let imageView = UIImageView()
-        imageView.backgroundColor = UIColor.orangeColor()
+        imageView.backgroundColor = UIColor.orange
         let item2 = TVItem(title: "Last", view: imageView, tabSelectedAction: {
             print("Second tab selected")
         }) {
