@@ -182,9 +182,7 @@ private extension TabView {
         collectionView.userInteractionEnabled = true
         collectionView.bounces = false
         collectionView.showsHorizontalScrollIndicator = false
-        collectionView.autoresizingMask = [.FlexibleWidth,
-                                           .FlexibleHeight,
-                                           .FlexibleBottomMargin]
+        collectionView.autoresizingMask = [.FlexibleWidth, .FlexibleHeight, .FlexibleBottomMargin]
         addSubview(collectionView)
         
         return collectionView
