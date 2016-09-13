@@ -7,7 +7,7 @@ Usage:
 ---
 1. As a containner of views:
 ```
-    let width = view.frame.size.width
+        let width = view.frame.size.width
         let frame = CGRect(x: 0, y: 100, width: width, height: width)
         let tabView = TabView(frame: frame)
         tabView.tabHeight = 60
