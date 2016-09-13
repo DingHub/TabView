@@ -70,24 +70,7 @@
                     <view key="view" contentMode="scaleToFill" id="plN-3x-PkP">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Q47-Sq-rVq">
-                                <rect key="frame" x="276" y="285" width="51" height="31"/>
-                            </switch>
-                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="n6w-Lg-9sM">
-                                <rect key="frame" x="241" y="247" width="118" height="31"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="114" id="p1p-yN-6BI"/>
-                                </constraints>
-                            </slider>
-                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="Q47-Sq-rVq" firstAttribute="centerX" secondItem="plN-3x-PkP" secondAttribute="centerX" id="3dS-e3-mFx"/>
-                            <constraint firstItem="n6w-Lg-9sM" firstAttribute="centerX" secondItem="Q47-Sq-rVq" secondAttribute="centerX" id="Y5f-Vu-GvW"/>
-                            <constraint firstItem="Q47-Sq-rVq" firstAttribute="centerY" secondItem="plN-3x-PkP" secondAttribute="centerY" id="oeR-uk-Ws5"/>
-                            <constraint firstItem="Q47-Sq-rVq" firstAttribute="top" secondItem="n6w-Lg-9sM" secondAttribute="bottom" constant="8" id="yyt-xS-0Qw"/>
-                        </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UVS-h7-Zkl" userLabel="First Responder" sceneMemberID="firstResponder"/>

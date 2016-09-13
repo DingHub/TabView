@@ -8,26 +8,44 @@
 
 import UIKit
 
-public struct TVItem {
+public class TVItem {    
+    public var title: String = ""
+    public var view: UIView?
     public typealias TVAction = () -> ()
-    public var title: String
-    public var view: UIView
     public var tabSelectedAction: TVAction?
     public var bodyTappedAction: TVAction?
+    // Another style of tab button
+    public var normalImageName: String? //If is nil, there will be no image on the tap button.
+    public var selectedImageName: String?
+    
+    public init(title: String,
+                view: UIView,
+                tabSelectedAction: TVAction? = nil,
+                bodyTappedAction: TVAction? = nil,
+                normalImageName: String? = nil,
+                selectedImageName: String? = nil) {
+    self.title = title
+    self.view = view
+    self.tabSelectedAction = tabSelectedAction
+    self.bodyTappedAction = bodyTappedAction
+    self.normalImageName = normalImageName
+    self.selectedImageName = selectedImageName
+    }
 }
 
 public class TabView: UIView, UICollectionViewDataSource, UICollectionViewDelegate {
     
-    public var tabHeight: CGFloat        = 44.0
-    public var bodyTopMargin: CGFloat    = 20.0
-    public var bodyBottomMargin: CGFloat = 20.0
-    
+    public var tabHeight: CGFloat             = 44.0
+    public var bodyTopMargin: CGFloat         = 20.0
+    public var bodyBottomMargin: CGFloat      = 20.0
+
     public var tabBackgroundColor: UIColor?
-    public var tabFontSize: CGFloat      = 14.0
-    public var titleColor                = UIColor(red: 51.0/255.0, green: 51.0/255.0, blue: 51.0/255.0, alpha: 1.0)
-    public var selectedTitleColor        = UIColor(red: 33.0/255.0, green: 149.0/255.0, blue: 128.0/255.0, alpha: 1.0)
+    public var tabBackGroundImageName: String?
+    public var tabFontSize: CGFloat           = 14.0
+    public var titleColor                     = UIColor(red: 51.0/255.0, green: 51.0/255.0, blue: 51.0/255.0, alpha: 1.0)
+    public var selectedTitleColor             = UIColor(red: 33.0/255.0, green: 149.0/255.0, blue: 128.0/255.0, alpha: 1.0)
     public var tabLineColor: UIColor?
-    public var selectedTabLineColor      = UIColor(red: 33.0/255.0, green: 149.0/255.0, blue: 128.0/255.0, alpha: 1.0)
+    public var selectedTabLineColor: UIColor? = UIColor(red: 33.0/255.0, green: 149.0/255.0, blue: 128.0/255.0, alpha: 1.0)
     
     public var items = [TVItem]() {
         didSet {
@@ -103,9 +121,29 @@ private extension TabView {
             
             button.setTitle(item.title, forState: .Normal)
             button.setTitle(item.title, forState: .Selected)
+            if let normalImageName = item.normalImageName {
+                button.setImage(UIImage(named: normalImageName), forState: .Normal)
+                if let imageSize = button.imageView?.frame.size {
+                    button.titleEdgeInsets = UIEdgeInsets(top: imageSize.height, left: -imageSize.width, bottom: 0, right: 0)
+                }
+                if let titleSize = button.titleLabel?.frame.size {
+                    button.imageEdgeInsets = UIEdgeInsets(top: -titleSize.height, left: 0, bottom: 0, right: -titleSize.width)
+                }
+                
+            }
+            if let selectedImageName = item.selectedImageName {
+                button.setImage(UIImage(named: selectedImageName), forState: .Selected)
+            }
+            if let tabBackGroundImageName = tabBackGroundImageName {
+                button .setBackgroundImage(UIImage(named: tabBackGroundImageName), forState: .Selected)
+            }
+            button.setBackgroundImage(nil, forState: .Normal)
             
             tabView.addSubview(button)
             buttons.append(button)
+            if i == 0 {
+                button.selected = true
+            }
         }
         
         layoutIfNeeded()

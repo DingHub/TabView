@@ -13,30 +13,37 @@ class ViewController1: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let width = view.frame.size.width
-        let frame = CGRect(x: width * 0.25, y: 100, width: width * 0.5, height: width * 0.8)
-        let tabView = TabView(frame: frame)
-        tabView.tabLineColor = UIColor(red: 225.0/255.0, green: 225.0/255.0, blue: 225.0/255.0, alpha: 1.0);
-        
-        let label = UILabel()
-        label.textAlignment = .Center
-        label.text = "First view"
-        let item1 = TVItem(title: "First", view: label, tabSelectedAction: nil, bodyTappedAction: nil)
-        
-        let imageView = UIImageView()
-        imageView.backgroundColor = UIColor.orangeColor()
-        let item2 = TVItem(title: "Last", view: imageView, tabSelectedAction: {
-            print("Second tab selected")
-        }) {
-            print("Second view tapped")
-        }
-        tabView.items = [item1, item2]
-        
-        view.addSubview(tabView)
+        view.addSubview(createTabView())
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+    }
+    
+    func createTabView() -> TabView {
+        let width = view.frame.size.width
+        let frame = CGRect(x: 0, y: 100, width: width, height: width)
+        let tabView = TabView(frame: frame)
+        tabView.tabHeight = 60
+        tabView.tabBackGroundImageName = "tabButtonBackground"
+        tabView.tabLineColor = UIColor(white: 0.9, alpha: 1)
+        tabView.selectedTabLineColor = nil
+        
+        let label = UILabel()
+        label.textAlignment = .Center
+        label.text = "⭐️⭐️⭐️⭐️⭐️⭐️⭐️"
+        let starItem = TVItem(title: "Star", view: label, normalImageName: "star_normal", selectedImageName: "star_selected")
+        
+        let imageView = UIImageView()
+        imageView.backgroundColor = UIColor.orangeColor()
+        let discoveryItem = TVItem(title: "Discovery", view: imageView, normalImageName: "discovery_normal", selectedImageName: "discovery_selected")
+        
+        let supplierItem = TVItem(title: "Supplier", view: UIView(), normalImageName: "supplier_normal", selectedImageName: "supplier_selected")
+        
+        let myItem = TVItem(title: "My", view: UIView(), normalImageName: "my_normal", selectedImageName: "my_selected")
+        
+        tabView.items = [starItem, discoveryItem, supplierItem, myItem]
+        return tabView
     }
 
 }

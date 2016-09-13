@@ -22,7 +22,7 @@ class ViewController: UIViewController {
         let tabView = TabView(frame: screenBounds)
         tabView.bodyBottomMargin = 0
         
-        let item1 = TVItem(title: "controller 1", view: vc1.view, tabSelectedAction: nil, bodyTappedAction: nil)
+        let item1 = TVItem(title: "controller 1", view: vc1.view)
         
         var vc2loaded = false
         let item2 = TVItem(title: "controller 2",
@@ -32,10 +32,9 @@ class ViewController: UIViewController {
                                 vc2loaded = true
                                 vc2.loadData()
                             }
-            },
-                           bodyTappedAction: nil)
+        })
         
-        let item3 = TVItem(title: "controller 3", view: vc3.view, tabSelectedAction: nil, bodyTappedAction: nil)
+        let item3 = TVItem(title: "controller 3", view: vc3.view)
         
         tabView.items = [item1, item2, item3]
 
