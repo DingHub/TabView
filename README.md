@@ -11,6 +11,8 @@ Usage:
         let frame = CGRect(x: 0, y: 100, width: width, height: width)
         let tabView = TabView(frame: frame)
         tabView.tabHeight = 60
+        tabView.tabHorizontalMargin = 5
+        tabView.tabLineTopMargin = 3
         tabView.tabBackGroundImageName = "tabButtonBackground"
         tabView.tabLineColor = UIColor(white: 0.9, alpha: 1)
         tabView.selectedTabLineColor = nil
