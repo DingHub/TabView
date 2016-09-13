@@ -7,44 +7,28 @@ Usage:
 ---
 1. As a containner of views:
 ```
-    CGFloat width = self.view.frame.size.width;
-    CGRect frame = CGRectMake(0, 100, width, width);
-    TVTabView *tabView = [[TVTabView alloc] initWithFrame:frame];
-    tabView.tabHeight = 60;
-    tabView.tabBackGroundImageName = @"tabButtonBackground";
-    tabView.tabLineColor = [UIColor colorWithWhite:0.9 alpha:1];
-    tabView.selectedTabLineColor = nil;
-    
-    TVItem *starItem = [TVItem new];
-    starItem.title = @"Star";
-    starItem.selectedImageName = @"star_selected";
-    starItem.normalImageName = @"star_normal";
-    UILabel *label = [UILabel new];
-    label.textAlignment = NSTextAlignmentCenter;
-    label.text = @"⭐️⭐️⭐️⭐️⭐️⭐️⭐️";
-    starItem.view = label;
-    
-    TVItem *discoveryItem = [TVItem new];
-    discoveryItem.title = @"Discovery";
-    discoveryItem.normalImageName = @"discovery_normal";
-    discoveryItem.selectedImageName = @"discovery_selected";
-    UIImageView *imageView = [UIImageView new];
-    imageView.backgroundColor = [UIColor orangeColor];
-    discoveryItem.view = imageView;
-    
-    TVItem *supplierItem = [TVItem new];
-    supplierItem.title = @"Supplier";
-    supplierItem.selectedImageName = @"supplier_selected";
-    supplierItem.normalImageName = @"supplier_normal";
-    supplierItem.view = [UIView new];
-    
-    TVItem *myItem = [TVItem new];
-    myItem.title = @"My";
-    myItem.selectedImageName = @"my_selected";
-    myItem.normalImageName = @"my_normal";
-    myItem.view = [UIView new];
-    
-    tabView.items = @[starItem, discoveryItem, supplierItem, myItem];
+    let width = view.frame.size.width
+        let frame = CGRect(x: 0, y: 100, width: width, height: width)
+        let tabView = TabView(frame: frame)
+        tabView.tabHeight = 60
+        tabView.tabBackGroundImageName = "tabButtonBackground"
+        tabView.tabLineColor = UIColor(white: 0.9, alpha: 1)
+        tabView.selectedTabLineColor = nil
+        
+        let label = UILabel()
+        label.textAlignment = .Center
+        label.text = "⭐️⭐️⭐️⭐️⭐️⭐️⭐️"
+        let starItem = TVItem(title: "Star", view: label, normalImageName: "star_normal", selectedImageName: "star_selected")
+        
+        let imageView = UIImageView()
+        imageView.backgroundColor = UIColor.orangeColor()
+        let discoveryItem = TVItem(title: "Discovery", view: imageView, normalImageName: "discovery_normal", selectedImageName: "discovery_selected")
+        
+        let supplierItem = TVItem(title: "Supplier", view: UIView(), normalImageName: "supplier_normal", selectedImageName: "supplier_selected")
+        
+        let myItem = TVItem(title: "My", view: UIView(), normalImageName: "my_normal", selectedImageName: "my_selected")
+        
+        tabView.items = [starItem, discoveryItem, supplierItem, myItem]
 ```
 2. As a containner of viewControllers:
 ```
