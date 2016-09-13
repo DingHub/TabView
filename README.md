@@ -7,7 +7,7 @@ Usage:
 ---
 1. As a containner of views:
 ```
-        CGFloat width = self.view.frame.size.width;
+    CGFloat width = self.view.frame.size.width;
     CGRect frame = CGRectMake(0, 100, width, width);
     TVTabView *tabView = [[TVTabView alloc] initWithFrame:frame];
     tabView.tabHeight = 60;
