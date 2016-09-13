@@ -7,26 +7,44 @@ Usage:
 ---
 1. As a containner of views:
 ```
-        let width = view.frame.size.width
-        let frame = CGRect(x: width * 0.25, y: 100, width: width * 0.5, height: width * 0.8)
-        let tabView = TabView(frame: frame)
-        tabView.tabLineColor = UIColor(red: 225.0/255.0, green: 225.0/255.0, blue: 225.0/255.0, alpha: 1.0);
-        
-        let label = UILabel()
-        label.textAlignment = .Center
-        label.text = "First view"
-        let item1 = TVItem(title: "First", view: label, tabSelectedAction: nil, bodyTappedAction: nil)
-        
-        let imageView = UIImageView()
-        imageView.backgroundColor = UIColor.orangeColor()
-        let item2 = TVItem(title: "Last", view: imageView, tabSelectedAction: {
-            print("Second tab selected")
-        }) {
-            print("Second view tapped")
-        }
-        tabView.items = [item1, item2]
-        
-        view.addSubview(tabView)
+        CGFloat width = self.view.frame.size.width;
+    CGRect frame = CGRectMake(0, 100, width, width);
+    TVTabView *tabView = [[TVTabView alloc] initWithFrame:frame];
+    tabView.tabHeight = 60;
+    tabView.tabBackGroundImageName = @"tabButtonBackground";
+    tabView.tabLineColor = [UIColor colorWithWhite:0.9 alpha:1];
+    tabView.selectedTabLineColor = nil;
+    
+    TVItem *starItem = [TVItem new];
+    starItem.title = @"Star";
+    starItem.selectedImageName = @"star_selected";
+    starItem.normalImageName = @"star_normal";
+    UILabel *label = [UILabel new];
+    label.textAlignment = NSTextAlignmentCenter;
+    label.text = @"⭐️⭐️⭐️⭐️⭐️⭐️⭐️";
+    starItem.view = label;
+    
+    TVItem *discoveryItem = [TVItem new];
+    discoveryItem.title = @"Discovery";
+    discoveryItem.normalImageName = @"discovery_normal";
+    discoveryItem.selectedImageName = @"discovery_selected";
+    UIImageView *imageView = [UIImageView new];
+    imageView.backgroundColor = [UIColor orangeColor];
+    discoveryItem.view = imageView;
+    
+    TVItem *supplierItem = [TVItem new];
+    supplierItem.title = @"Supplier";
+    supplierItem.selectedImageName = @"supplier_selected";
+    supplierItem.normalImageName = @"supplier_normal";
+    supplierItem.view = [UIView new];
+    
+    TVItem *myItem = [TVItem new];
+    myItem.title = @"My";
+    myItem.selectedImageName = @"my_selected";
+    myItem.normalImageName = @"my_normal";
+    myItem.view = [UIView new];
+    
+    tabView.items = @[starItem, discoveryItem, supplierItem, myItem];
 ```
 2. As a containner of viewControllers:
 ```
