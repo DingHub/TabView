@@ -28,6 +28,8 @@ class ViewController1: UIViewController {
         tabView.tabBackGroundImageName = "tabButtonBackground"
         tabView.tabLineColor = UIColor(white: 0.9, alpha: 1)
         tabView.selectedTabLineColor = nil
+        tabView.tabHorizontalMargin = 5
+        tabView.tabLineTopMargin = 3
         
         let label = UILabel()
         label.textAlignment = .Center
@@ -36,7 +38,7 @@ class ViewController1: UIViewController {
         
         let imageView = UIImageView()
         imageView.backgroundColor = UIColor.orangeColor()
-        let discoveryItem = TVItem(title: "Discovery", view: imageView, normalImageName: "discovery_normal", selectedImageName: "discovery_selected")
+        let discoveryItem = TVItem(title: "Time", view: imageView, normalImageName: "discovery_normal", selectedImageName: "discovery_selected")
         
         let supplierItem = TVItem(title: "Supplier", view: UIView(), normalImageName: "supplier_normal", selectedImageName: "supplier_selected")
         

@@ -41,6 +41,9 @@ public class TabView: UIView, UICollectionViewDataSource, UICollectionViewDelega
 
     public var tabBackgroundColor: UIColor?
     public var tabBackGroundImageName: String?
+    public var tabHorizontalMargin: CGFloat = 0
+    public var tabLineTopMargin: CGFloat = 0
+//    public var tab
     public var tabFontSize: CGFloat           = 14.0
     public var titleColor                     = UIColor(red: 51.0/255.0, green: 51.0/255.0, blue: 51.0/255.0, alpha: 1.0)
     public var selectedTitleColor             = UIColor(red: 33.0/255.0, green: 149.0/255.0, blue: 128.0/255.0, alpha: 1.0)
@@ -97,7 +100,7 @@ public extension TabView {
 private extension TabView {
     func buidSubviews() {
         let count = items.count
-        let buttonWidth = width / CGFloat(count)
+        let buttonWidth = (width - tabHorizontalMargin * CGFloat(count + 1)) / CGFloat(count)
         addSubview(tabView)
         tabView.backgroundColor = tabBackgroundColor
         tabView.frame = CGRect(x: 0, y: 0, width: width, height: tabHeight)
@@ -106,12 +109,12 @@ private extension TabView {
         tabLine.frame = CGRect(x: 0, y: tabHeight - 1, width: width, height: 1)
         tabLine.addSubview(selectedTabLine)
         selectedTabLine.backgroundColor = selectedTabLineColor
-        selectedTabLine.frame = CGRect(x: 0, y: 0, width: buttonWidth, height: 1)
+        selectedTabLine.frame = CGRect(x: tabHorizontalMargin, y: 0, width: buttonWidth, height: 1)
         
         for (i,item) in items.enumerate() {
             let button = UIButton(type: .Custom)
             let floatI = CGFloat(i)
-            button.frame = CGRect(x: buttonWidth * floatI, y: 0, width: buttonWidth, height: tabHeight)
+            button.frame = CGRect(x: tabHorizontalMargin + (buttonWidth + tabHorizontalMargin) * floatI, y: 0, width: buttonWidth, height: tabHeight - tabLineTopMargin)
             button.titleLabel?.baselineAdjustment = .AlignCenters
             button.titleLabel?.font = UIFont.systemFontOfSize(tabFontSize)
             button.setTitleColor(titleColor, forState: .Normal)
@@ -122,14 +125,14 @@ private extension TabView {
             button.setTitle(item.title, forState: .Normal)
             button.setTitle(item.title, forState: .Selected)
             if let normalImageName = item.normalImageName {
+                
                 button.setImage(UIImage(named: normalImageName), forState: .Normal)
-                if let imageSize = button.imageView?.frame.size {
+                if let imageSize = button.imageView?.bounds.size {
                     button.titleEdgeInsets = UIEdgeInsets(top: imageSize.height, left: -imageSize.width, bottom: 0, right: 0)
                 }
-                if let titleSize = button.titleLabel?.frame.size {
+                if let titleSize = button.titleLabel?.bounds.size {
                     button.imageEdgeInsets = UIEdgeInsets(top: -titleSize.height, left: 0, bottom: 0, right: -titleSize.width)
                 }
-                
             }
             if let selectedImageName = item.selectedImageName {
                 button.setImage(UIImage(named: selectedImageName), forState: .Selected)
@@ -162,13 +165,13 @@ private extension TabView {
         guard currentIndex != index && index >= 0 && index < items.count else { return }
         let i = index == -1 ? 0 : index
         let preButton = buttons[currentIndex]
-        preButton.selected = false
         let currentButton = buttons[i]
-        currentButton.selected = true
         
         currentIndex = i
         
         UIView.animateWithDuration(0.3) {
+            preButton.selected = false
+            currentButton.selected = true
             let point = CGPoint(x: currentButton.center.x, y: self.selectedTabLine.center.y)
             self.selectedTabLine.center = point
         }

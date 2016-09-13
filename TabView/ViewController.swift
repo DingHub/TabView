@@ -21,6 +21,7 @@ class ViewController: UIViewController {
         let screenBounds = UIScreen.mainScreen().bounds
         let tabView = TabView(frame: screenBounds)
         tabView.bodyBottomMargin = 0
+        tabView.tabHorizontalMargin = 5
         
         let item1 = TVItem(title: "controller 1", view: vc1.view)
         
