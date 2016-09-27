@@ -32,6 +32,7 @@ class ViewController1: UIViewController {
         tabView.selectedTabLineColor = nil
         
         let label = UILabel()
+<<<<<<< HEAD
         label.textAlignment = .Center
         label.text = "⭐️⭐️⭐️⭐️⭐️⭐️⭐️"
         let starItem = TVItem(title: "Star", view: label, normalImageName: "star_normal", selectedImageName: "star_selected")
@@ -39,6 +40,20 @@ class ViewController1: UIViewController {
         let imageView = UIImageView()
         imageView.backgroundColor = UIColor.orangeColor()
         let discoveryItem = TVItem(title: "Time", view: imageView, normalImageName: "discovery_normal", selectedImageName: "discovery_selected")
+=======
+        label.textAlignment = .center
+        label.text = "First view"
+        let item1 = TVItem(title: "First", view: label, tabSelectedAction: nil, bodyTappedAction: nil)
+        
+        let imageView = UIImageView()
+        imageView.backgroundColor = UIColor.orange
+        let item2 = TVItem(title: "Last", view: imageView, tabSelectedAction: {
+            print("Second tab selected")
+        }) {
+            print("Second view tapped")
+        }
+        tabView.items = [item1, item2]
+>>>>>>> origin/Swift3
         
         let supplierItem = TVItem(title: "Supplier", view: UIView(), normalImageName: "supplier_normal", selectedImageName: "supplier_selected")
         
