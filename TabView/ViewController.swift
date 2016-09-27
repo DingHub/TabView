@@ -38,8 +38,8 @@ class ViewController: UIViewController {
         let item3 = TVItem(title: "controller 3", view: vc3.view)
         
         tabView.items = [item1, item2, item3]
-
-            view.addSubview(tabView)
+        view.addSubview(tabView)
+        
         view.backgroundColor = UIColor.white
     }
 
