@@ -8,72 +8,76 @@
 
 import UIKit
 
-public class TVItem {    
-    public var title: String = ""
-    public var view: UIView?
+
+open class TVItem {
+    open var title: String = ""
+    open var view: UIView?
     public typealias TVAction = () -> ()
-    public var tabSelectedAction: TVAction?
-    public var bodyTappedAction: TVAction?
+    open var tabSelectedAction: TVAction?
+    open var bodyTappedAction: TVAction?
     // Another style of tab button
-    public var normalImageName: String? //If is nil, there will be no image on the tap button.
-    public var selectedImageName: String?
+    open var normalImage: UIImage? //If is nil, there will be no image on the tap button.
+    open var selectedImage: UIImage?
     
     public init(title: String,
                 view: UIView,
                 tabSelectedAction: TVAction? = nil,
                 bodyTappedAction: TVAction? = nil,
-                normalImageName: String? = nil,
-                selectedImageName: String? = nil) {
-    self.title = title
-    self.view = view
-    self.tabSelectedAction = tabSelectedAction
-    self.bodyTappedAction = bodyTappedAction
-    self.normalImageName = normalImageName
-    self.selectedImageName = selectedImageName
+                normalImage: UIImage? = nil,
+                selectedImage: UIImage? = nil)
+    {
+        self.title = title
+        self.view = view
+        self.tabSelectedAction = tabSelectedAction
+        self.bodyTappedAction = bodyTappedAction
+        self.normalImage = normalImage
+        self.selectedImage = selectedImage
     }
 }
 
-public class TabView: UIView, UICollectionViewDataSource, UICollectionViewDelegate {
+open class TabView: UIView, UICollectionViewDataSource, UICollectionViewDelegate {
     
-    public var tabHeight: CGFloat             = 44.0
+    open var tabHeight: CGFloat             = 44.0
 
-    public var tabBackgroundColor: UIColor?
-    public var tabBackGroundImageName: String?
-    public var tabHorizontalMargin: CGFloat   = 0
-    public var tabLineTopMargin: CGFloat      = 0
-    public var bodyTopMargin: CGFloat         = 20.0
-    public var bodyBottomMargin: CGFloat      = 20.0
+    open var tabBackgroundColor: UIColor?
+    open var tabBackGroundImageName: String?
+    open var tabHorizontalMargin: CGFloat   = 0
+    open var tabLineTopMargin: CGFloat      = 0
+    open var bodyTopMargin: CGFloat         = 20.0
+    open var bodyBottomMargin: CGFloat      = 20.0
 
-    public var tabFontSize: CGFloat           = 14.0
-    public var titleColor                     = UIColor(red: 51.0/255.0, green: 51.0/255.0, blue: 51.0/255.0, alpha: 1.0)
-    public var selectedTitleColor             = UIColor(red: 33.0/255.0, green: 149.0/255.0, blue: 128.0/255.0, alpha: 1.0)
-    public var tabLineColor: UIColor?
-    public var selectedTabLineColor: UIColor? = UIColor(red: 33.0/255.0, green: 149.0/255.0, blue: 128.0/255.0, alpha: 1.0)
-    
-    public var items = [TVItem]() {
+    open var tabFontSize: CGFloat           = 14.0
+    open var titleColor                     = UIColor(red: 51.0/255.0, green: 51.0/255.0, blue: 51.0/255.0, alpha: 1.0)
+    open var selectedTitleColor             = UIColor(red: 33.0/255.0, green: 149.0/255.0, blue: 128.0/255.0, alpha: 1.0)
+    open var tabLineColor: UIColor?
+    open var selectedTabLineColor: UIColor? = UIColor(red: 33.0/255.0, green: 149.0/255.0, blue: 128.0/255.0, alpha: 1.0)
+    open var bodyDragEnable: Bool = true {
         didSet {
-            if items.count > 0 {
-                buidSubviews()
-            }
+            bodyView?.isScrollEnabled = bodyDragEnable
+        }
+    }
+    open var items = [TVItem]() {
+        didSet {
+            buidSubviews()
         }
     }
     
-    public var selectedIndex: Int {
+    open var selectedIndex: Int {
         get {
             return currentIndex
         }
         set {
-            tapped(index: newValue)
+            tapped(newValue)
         }
     }
     
     // Mark: internal
-    var currentIndex = 0
-    var bodyView: UICollectionView?
-    lazy var buttons = [UIButton]()
-    lazy var tabView = UIView()
-    lazy var tabLine = UIView()
-    lazy var selectedTabLine = UIView()
+    fileprivate var currentIndex = 0
+    fileprivate var bodyView: UICollectionView?
+    fileprivate lazy var buttons = [UIButton]()
+    fileprivate lazy var tabView = UIView()
+    fileprivate lazy var tabLine = UIView()
+    fileprivate lazy var selectedTabLine = UIView()
 }
 
 // MARK: - collectionView datasource and delegate methods.
@@ -94,73 +98,76 @@ public extension TabView {
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         let index = Int(scrollView.contentOffset.x / width)
-        tapped(index: index)
+        tapped(index)
     }
 }
 
 // MARK: - private
-private extension TabView {
+fileprivate extension TabView {
+    
     func buidSubviews() {
+        currentIndex = 0
+        for view in tabView.subviews {
+            view.removeFromSuperview()
+        }
+        buttons.removeAll()
+        if let collectionView = bodyView {
+            collectionView.reloadData()
+        }
         let count = items.count
-        let buttonWidth = (width - tabHorizontalMargin * CGFloat(count + 1)) / CGFloat(count)
-        addSubview(tabView)
+        guard count > 0 else {
+            return
+        }
         tabView.backgroundColor = tabBackgroundColor
+        tabLine.backgroundColor = tabLineColor
+        selectedTabLine.backgroundColor = selectedTabLineColor
+        
+        let buttonWidth = (width - tabHorizontalMargin * CGFloat(count + 1)) / CGFloat(count)
+        
+        addSubview(tabView)
         tabView.frame = CGRect(x: 0, y: 0, width: width, height: tabHeight)
         addSubview(tabLine)
-        tabLine.backgroundColor = tabLineColor
         tabLine.frame = CGRect(x: 0, y: tabHeight - 1, width: width, height: 1)
         tabLine.addSubview(selectedTabLine)
-        selectedTabLine.backgroundColor = selectedTabLineColor
         selectedTabLine.frame = CGRect(x: tabHorizontalMargin, y: 0, width: buttonWidth, height: 1)
         
         for (i,item) in items.enumerated() {
             let button = UIButton(type: .custom)
             let floatI = CGFloat(i)
-<<<<<<< HEAD
-            button.frame = CGRect(x: tabHorizontalMargin + (buttonWidth + tabHorizontalMargin) * floatI, y: 0, width: buttonWidth, height: tabHeight - tabLineTopMargin)
-            button.titleLabel?.baselineAdjustment = .AlignCenters
-            button.titleLabel?.font = UIFont.systemFontOfSize(tabFontSize)
-            button.setTitleColor(titleColor, forState: .Normal)
-            button.setTitleColor(selectedTitleColor, forState: .Selected)
-=======
             button.frame = CGRect(x: buttonWidth * floatI, y: 0, width: buttonWidth, height: tabHeight)
             button.titleLabel?.baselineAdjustment = .alignCenters
             button.titleLabel?.font = UIFont.systemFont(ofSize: tabFontSize)
             button.setTitleColor(titleColor, for: .normal)
             button.setTitleColor(selectedTitleColor, for: .selected)
->>>>>>> origin/Swift3
             button.tag = i;
             button.addTarget(self, action: #selector(tabTapped), for: .touchUpInside)
             
-<<<<<<< HEAD
-            button.setTitle(item.title, forState: .Normal)
-            button.setTitle(item.title, forState: .Selected)
-            if let normalImageName = item.normalImageName {
+            button.setTitle(item.title, for: .normal)
+            button.setTitle(item.title, for: .selected)
+            
+            if let normalImage = item.normalImage {
                 
-                button.setImage(UIImage(named: normalImageName), forState: .Normal)
-                if let imageSize = button.imageView?.bounds.size {
+                button.setImage(normalImage, for: .normal)
+                if let imageSize = button.imageView?.frame.size {
                     button.titleEdgeInsets = UIEdgeInsets(top: imageSize.height, left: -imageSize.width, bottom: 0, right: 0)
                 }
                 if let titleSize = button.titleLabel?.bounds.size {
                     button.imageEdgeInsets = UIEdgeInsets(top: -titleSize.height, left: 0, bottom: 0, right: -titleSize.width)
                 }
             }
-            if let selectedImageName = item.selectedImageName {
-                button.setImage(UIImage(named: selectedImageName), forState: .Selected)
+            if let selectedImage = item.selectedImage {
+                button.setImage(selectedImage, for: .selected)
             }
             if let tabBackGroundImageName = tabBackGroundImageName {
-                button .setBackgroundImage(UIImage(named: tabBackGroundImageName), forState: .Selected)
+                button .setBackgroundImage(UIImage(named: tabBackGroundImageName), for: .selected)
+                button.contentEdgeInsets = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
             }
-            button.setBackgroundImage(nil, forState: .Normal)
-=======
-            button.setTitle(item.title, for: .normal)
-            button.setTitle(item.title, for: .selected)
->>>>>>> origin/Swift3
+            button.setBackgroundImage(nil, for: .normal)
             
             tabView.addSubview(button)
             buttons.append(button)
             if i == 0 {
-                button.selected = true
+                button.isSelected = true
             }
         }
         
@@ -169,62 +176,28 @@ private extension TabView {
             bodyView = createBodyView()
         }
         bodyView?.reloadData()
-        tapped(index: -1)
+        tapped(0)
     }
     
-    @objc func tabTapped(button: UIButton) {
-        tapped(index: button.tag)
+    @objc func tabTapped(_ button: UIButton) {
+        tapped(button.tag)
     }
     
-    func tapped(index: Int) {
-        guard currentIndex != index && index >= 0 && index < items.count else { return }
-        let i = index == -1 ? 0 : index
+    func tapped(_ index: Int) {
+        guard currentIndex != index else { return }
+        
         let preButton = buttons[currentIndex]
-<<<<<<< HEAD
-        let currentButton = buttons[i]
+        let currentButton = buttons[index]
+        currentIndex = index
         
-        currentIndex = i
-        
-        UIView.animateWithDuration(0.3) {
-            preButton.selected = false
-            currentButton.selected = true
-=======
-        preButton.isSelected = false
-        let currentButton = buttons[i]
-        currentButton.isSelected = true
-        
-        currentIndex = i
-        
-        UIView.animate(withDuration: 0.3) {
->>>>>>> origin/Swift3
+        UIView.animate(withDuration: 0.3, animations: {
+            preButton.isSelected = false
+            currentButton.isSelected = true
             let point = CGPoint(x: currentButton.center.x, y: self.selectedTabLine.center.y)
             self.selectedTabLine.center = point
-        }
-        
+        })
         scrollBody()
-        
-        items[i].tabSelectedAction?()
-    }
-    
-    func scrollBody() {
-        let point = CGPoint(x: width * CGFloat(currentIndex), y: 0)
-        bodyView?.setContentOffset(point, animated: true)
-    }
-    
-    class TVCell: UICollectionViewCell {
-        var mainView: UIView? {
-            willSet(newView) {
-                for view in contentView.subviews {
-                    view.removeFromSuperview()
-                }
-                newView?.frame = bounds
-            }
-            didSet {
-                if let view = mainView {
-                    contentView.addSubview(view)
-                }
-            }
-        }
+        self.items[index].tabSelectedAction?()
     }
     
     func createBodyView() -> UICollectionView {
@@ -248,16 +221,28 @@ private extension TabView {
         collectionView.isUserInteractionEnabled = true
         collectionView.bounces = false
         collectionView.showsHorizontalScrollIndicator = false
-<<<<<<< HEAD
-        collectionView.autoresizingMask = [.FlexibleWidth, .FlexibleHeight, .FlexibleBottomMargin]
-=======
         collectionView.autoresizingMask = [.flexibleWidth,
                                            .flexibleHeight,
                                            .flexibleBottomMargin]
->>>>>>> origin/Swift3
         addSubview(collectionView)
         
         return collectionView
+    }
+    
+    class TVCell: UICollectionViewCell {
+        var mainView: UIView? {
+            willSet(newView) {
+                for view in contentView.subviews {
+                    view.removeFromSuperview()
+                }
+                newView?.frame = bounds
+            }
+            didSet {
+                if let view = mainView {
+                    contentView.addSubview(view)
+                }
+            }
+        }
     }
     
     var width: CGFloat {
@@ -266,5 +251,10 @@ private extension TabView {
     
     var height: CGFloat {
         return self.frame.size.height
+    }
+    
+    func scrollBody() {
+        let point = CGPoint(x: width * CGFloat(currentIndex), y: 0)
+        bodyView?.setContentOffset(point, animated: true)
     }
 }
