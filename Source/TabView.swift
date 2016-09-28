@@ -58,7 +58,7 @@ open class TabView: UIView, UICollectionViewDataSource, UICollectionViewDelegate
     }
     open var items = [TVItem]() {
         didSet {
-            buidSubviews()
+            p_buidSubviews()
         }
     }
     
@@ -71,7 +71,7 @@ open class TabView: UIView, UICollectionViewDataSource, UICollectionViewDelegate
         }
     }
     
-    // Mark: internal
+    // Mark: fileprivate
     fileprivate var currentIndex = 0
     fileprivate var bodyView: UICollectionView?
     fileprivate lazy var buttons = [UIButton]()
@@ -105,7 +105,7 @@ public extension TabView {
 // MARK: - private
 fileprivate extension TabView {
     
-    func buidSubviews() {
+    func p_buidSubviews() {
         currentIndex = 0
         for view in tabView.subviews {
             view.removeFromSuperview()
