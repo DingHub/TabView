@@ -40,7 +40,7 @@ open class TabView: UIView, UICollectionViewDataSource, UICollectionViewDelegate
     open var tabHeight: CGFloat             = 44.0
 
     open var tabBackgroundColor: UIColor?
-    open var tabBackGroundImageName: String?
+    open var tabBackGroundImage: UIImage?
     open var tabHorizontalMargin: CGFloat   = 0
     open var tabLineTopMargin: CGFloat      = 0
     open var bodyTopMargin: CGFloat         = 20.0
@@ -158,8 +158,8 @@ fileprivate extension TabView {
             if let selectedImage = item.selectedImage {
                 button.setImage(selectedImage, for: .selected)
             }
-            if let tabBackGroundImageName = tabBackGroundImageName {
-                button .setBackgroundImage(UIImage(named: tabBackGroundImageName), for: .selected)
+            if let tabBackGroundImage = tabBackGroundImage {
+                button .setBackgroundImage(tabBackGroundImage, for: .selected)
                 button.contentEdgeInsets = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
             }
             button.setBackgroundImage(nil, for: .normal)
