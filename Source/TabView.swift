@@ -15,7 +15,7 @@ open class TVItem {
     public typealias TVAction = () -> ()
     open var tabSelectedAction: TVAction?
     open var bodyTappedAction: TVAction?
-    // Another style of tab button
+    // Image style of tab button
     open var normalImage: UIImage? //If is nil, there will be no image on the tap button.
     open var selectedImage: UIImage?
     
