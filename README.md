@@ -6,7 +6,7 @@ Handy Tab View.
 Usage:
 ---
 1. As a containner of views:
-```
+```swift
 let width = view.frame.size.width
 let frame = CGRect(x: 0, y: 100, width: width, height: width)
 let tabView = TabView(frame: frame)
@@ -33,7 +33,7 @@ let myItem = TVItem(title: "My", view: UIView(), normalImage: UIImage(named:"my_
 tabView.items = [starItem, discoveryItem, supplierItem, myItem]
 ```
 2. As a containner of viewControllers:
-```
+```swift
 let storyboard = UIStoryboard(name: "Main", bundle: nil)
 let vc1 = storyboard.instantiateViewController(withIdentifier: "ViewController1") as! ViewController1
 let vc2 = storyboard.instantiateViewController(withIdentifier: "ViewController2") as! ViewController2
